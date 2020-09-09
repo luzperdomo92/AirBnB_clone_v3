@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Flask API for the AirBnB project"""
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
@@ -22,6 +22,12 @@ def teardown(self):
        after each request to the database
     """
     storage.close()
+
+
+@app.errorhandler(404)
+def error_404(e):
+    """Returns a JSON response when error 404 occurs"""
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
