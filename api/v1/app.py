@@ -17,7 +17,7 @@ port = os.getenv('HBNB_API_PORT', 5000)
 
 
 @app.teardown_appcontext
-def teardown():
+def teardown(self):
     """This method calls storage.close()
        after each request to the database
     """
