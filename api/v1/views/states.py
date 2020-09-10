@@ -8,7 +8,7 @@ from models.state import State
 
 
 @app_views.route('/states', methods=['GET'])
-def index():
+def states_index():
     """Retrieves the list of all State objects"""
     states = storage.all(State).values()
     states_dicts = list(map(lambda state: state.to_dict(), states))
@@ -16,7 +16,7 @@ def index():
 
 
 @app_views.route('/states/<state_id>', methods=['GET'])
-def show(state_id):
+def states_show(state_id):
     """Retrieves a State object"""
     state_found = storage.get(State, state_id)
     if state_found:
@@ -26,7 +26,7 @@ def show(state_id):
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
-def destroy(state_id):
+def states_destroy(state_id):
     """ Deletes a State object"""
     state_found = storage.get(State, state_id)
     if state_found:
@@ -38,7 +38,7 @@ def destroy(state_id):
 
 
 @app_views.route('/states', methods=['POST'])
-def create():
+def states_create():
     """ Creates a State """
     state_attributes = request.get_json()
     if 'name' not in state_attributes or not state_attributes['name']:
@@ -51,7 +51,7 @@ def create():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
-def update(state_id):
+def states_update(state_id):
     state_found = storage.get(State, state_id)
     state_attributes = request.get_json()
     if state_found:
