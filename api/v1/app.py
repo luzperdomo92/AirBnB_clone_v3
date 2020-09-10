@@ -28,12 +28,12 @@ def teardown(self):
 @app.errorhandler(404)
 def error_404(e):
     """Returns a JSON response when error 404 occurs"""
-    return jsonify({"error": "Not found"}), 404
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app.errorhandler(400)
 def handle_bad_request(e):
-    return 'Not a JSON', 400
+    return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
 if __name__ == "__main__":
