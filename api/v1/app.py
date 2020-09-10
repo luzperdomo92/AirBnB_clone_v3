@@ -31,11 +31,6 @@ def error_404(e):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app.errorhandler(400)
-def handle_bad_request(e):
-    return make_response(jsonify({"error": "Not a JSON"}), 400)
-
-
 if __name__ == "__main__":
     """Runs the Flask server"""
     app.run(host=host, port=port)
