@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""New view for State objects that handles all default 
+"""New view for State objects that handles all default
 RestFul API actions"""
 from api.v1.views import app_views
 from flask import jsonify, request
@@ -10,7 +10,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'])
 def index():
     """Retrieves the list of all State objects"""
-    states =  storage.all(State).values()
+    states = storage.all(State).values()
     states_dicts = list(map(lambda state: state.to_dict(), states))
     return jsonify(states_dicts)
 
@@ -41,7 +41,7 @@ def destroy(state_id):
 def create():
     """ Creates a State """
     state_attributes = request.get_json()
-    if not 'name' in state_attributes or not state_attributes['name']:
+    if 'name' not in state_attributes or not state_attributes['name']:
         return('Missing name', 400)
 
     new_state = State(**state_attributes)
@@ -63,8 +63,3 @@ def update(state_id):
         return(jsonify(state_found.to_dict()), 200)
 
     return jsonify({"error": "Not found"}), 404
-
-
-
-
-
