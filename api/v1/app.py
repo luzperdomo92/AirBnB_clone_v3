@@ -31,6 +31,18 @@ def error_404(e):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+@app.errorhandler(400)
+def error_400_missingName(e):
+    """Returns a JSON response when error 400 occurs"""
+    return make_response(jsonify({"Missing name"}), 400)
+
+
+@app.errorhandler(400)
+def error_400_notJson(e):
+    """Returns a JSON responde when error 400 occurs"""
+    return make_response(jsonify({"Not a JSON"}), 400)
+
+
 if __name__ == "__main__":
     """Runs the Flask server"""
     app.run(host=host, port=port)
