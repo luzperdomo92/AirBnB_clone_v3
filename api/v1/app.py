@@ -8,6 +8,7 @@ import os
 # Flask instance app
 app = Flask(__name__)
 
+app.url_map.strict_slashes = False
 # Blueprint app_views of our Flask instance app
 app.register_blueprint(app_views)
 
@@ -29,6 +30,9 @@ def error_404(e):
     """Returns a JSON response when error 404 occurs"""
     return jsonify({"error": "Not found"}), 404
 
+@app.errorhandler(400)
+def handle_bad_request(e):
+    return 'Not a JSON', 400
 
 if __name__ == "__main__":
     """Runs the Flask server"""
