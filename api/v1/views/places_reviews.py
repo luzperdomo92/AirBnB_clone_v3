@@ -49,7 +49,7 @@ def get_or_delete(review_id):
         return jsonify(review.to_dict())
 
     if request.method == 'DELETE':
-        storage.delete(city)
+        storage.delete(review)
         storage.save()
         return jsonify({}), 200
 
