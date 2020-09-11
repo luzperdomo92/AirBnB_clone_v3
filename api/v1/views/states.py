@@ -18,7 +18,7 @@ def states_index():
 @app_views.route('/states/<state_id>', methods=['GET'])
 def states_show(state_id):
     """Retrieves a State object"""
-    state_found = storage.get(State, state_id)
+    state_found = storage.get("State", state_id)
     if state_found:
         return jsonify(state_found.to_dict()), 200
     else:
@@ -28,7 +28,7 @@ def states_show(state_id):
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def states_destroy(state_id):
     """ Deletes a State object"""
-    state_found = storage.get(State, state_id)
+    state_found = storage.get("State", state_id)
     if state_found:
         storage.delete(state_found)
         storage.save()
@@ -55,7 +55,7 @@ def states_create():
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def update(state_id):
-    state_found = storage.get(State, state_id)
+    state_found = storage.get("State", state_id)
     state_attributes = request.get_json()
     if not state_attributes:
         abort(400, "Not a JSON")
