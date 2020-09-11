@@ -35,11 +35,11 @@ def create_review(place_id):
         abort(400, 'Not a JSON')
     if 'user_id' not in request_dict:
         abort(400, 'Missing user_id')
-    if 'text' not in request_dict:
-        abort(400, 'Missing text')
     userID = storage.get(User, request_dict['user_id'])
     if not userID:
         abort(404)
+    if 'text' not in request_dict:
+        abort(400, 'Missing text')
     new_review = Review(**request_dict)
     storage.new(new_review)
     storage.save()
@@ -71,11 +71,10 @@ def update_review(review_id):
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
-    else:
+    ignore = ["id", "user_id", "place_id",
+              "created_at", "updated_at"]:
         for key, value in request_dict.items():
-            if key in ["id", "user_id", "place_id",
-                       "created_at", "updated_at"]:
-                continue
-            setattr(review, key, value)
+            if key not in ignore:
+                setattr(review, key, value)
         storage.save()
         return jsonify(review.to_dict()), 200
