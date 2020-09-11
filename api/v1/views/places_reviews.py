@@ -43,6 +43,7 @@ def create_review(place_id):
     if 'text' not in request_dict:
         abort(400, 'Missing text')
     new_review = Review(**request_dict)
+    setattr(new_review, place_id, place_id)
     storage.new(new_review)
     storage.save()
     return jsonify(new_review.to_dict()), 201
@@ -67,16 +68,13 @@ def get_or_delete(review_id):
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def update_review(review_id):
     """Updates a review"""
-    request_dict = request.get_json()
-    if not request_dict:
-        abort(400, 'Not a JSON')
-
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
 
-    if 'text' not in request_dict:
-        abort(400, 'Missing text')
+    request_dict = request.get_json()
+    if not request_dict:
+        abort(400, 'Not a JSON')
 
     ignore = ["id", "user_id", "place_id",
               "created_at", "updated_at"]
