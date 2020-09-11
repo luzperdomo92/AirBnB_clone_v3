@@ -37,7 +37,7 @@ def create_review(place_id):
         abort(400, 'Missing user_id')
     if 'text' not in request_dict:
         abort(400, 'Missing text')
-    userID = storage.get(User, review['user_id'])
+    userID = storage.get(User, request_dict['user_id'])
     if not userID:
         abort(404)
     new_review = Review(**request_dict)
