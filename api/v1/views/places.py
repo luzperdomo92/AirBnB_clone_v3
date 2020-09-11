@@ -47,7 +47,7 @@ def create_place_in_city(city_id):
 
 def fetch_city(city_id):
     """fetch_city"""
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
     if city is None:
         abort(404)
 
@@ -56,7 +56,7 @@ def fetch_city(city_id):
 
 def fetch_user(user_id):
     """fetch_city"""
-    user = storage.get(User, user_id)
+    user = storage.get("User", user_id)
     if user is None:
         abort(404)
 
@@ -101,7 +101,7 @@ def update_place(place_id):
 
 def fetch_place(place_id):
     """fetch_place"""
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
     if place is None:
         abort(404)
 
