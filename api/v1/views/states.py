@@ -42,7 +42,7 @@ def states_create():
     """ Creates a State """
     state_attributes = request.get_json()
     if not state_attributes:
-         abort(400, "Not a JSON")
+        abort(400, "Not a JSON")
 
     if 'name' not in state_attributes or not state_attributes['name']:
         abort(400, "Missing name")
