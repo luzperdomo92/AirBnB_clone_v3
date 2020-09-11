@@ -2,7 +2,7 @@
 """New view for State objects that handles all default
 RestFul API actions"""
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 
@@ -41,11 +41,11 @@ def states_destroy(state_id):
 def states_create():
     """ Creates a State """
     state_attributes = request.get_json()
-    if state_attributes in None:
-        return "Not a JSON", 400
+    # if not state_attributes:
+    #     abort(400, "Not a JSON")
 
-    if state_attributes.get("name") is None:
-        return('Missing name', 400)
+    if 'name' not in state_attributes or not state_attributes['name']:
+        abort(400, "Missing name")
 
     new_state = State(**state_attributes)
     new_state.save()
@@ -54,18 +54,17 @@ def states_create():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
-def states_update(state_id):
+def update(state_id):
     state_found = storage.get(State, state_id)
-
     state_attributes = request.get_json()
     if not state_attributes:
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        abort(400, "Not a JSON")
 
     if state_found:
         for key, value in state_attributes.items():
             if key not in ['id', 'created_at', 'updated_at']:
                 setattr(state_found, key, value)
-        state_found.save()
+        storage.save()
         return(jsonify(state_found.to_dict()), 200)
-    else:
-        abort(404)
+
+    abort(404)
