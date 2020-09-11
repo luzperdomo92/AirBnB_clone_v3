@@ -72,9 +72,9 @@ def update_review(review_id):
     if review is None:
         abort(404)
     ignore = ["id", "user_id", "place_id",
-              "created_at", "updated_at"]:
-        for key, value in request_dict.items():
-            if key not in ignore:
-                setattr(review, key, value)
-        storage.save()
-        return jsonify(review.to_dict()), 200
+              "created_at", "updated_at"]
+    for key, value in request_dict.items():
+        if key not in ignore:
+            setattr(review, key, value)
+    storage.save()
+    return jsonify(review.to_dict()), 200
