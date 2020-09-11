@@ -74,17 +74,17 @@ test_db_storage.py'])
         state = State(name="luz")
         models.storage.new(state)
         models.storage.save()
-        self.assertEqual(models.storage.get("State", state.id).id, state.id)
+        self.assertEqual(models.storage.get(State, state.id).id, state.id)
 
     def test_count_objs(self):
         """
         Test count method
         """
-        before_count = models.storage.count("State")
+        before_count = models.storage.count(State)
         state = State(name="Eduardo")
         models.storage.new(state)
         models.storage.save()
-        after_count = models.storage.count("State")
+        after_count = models.storage.count(State)
         self.assertEqual(before_count, after_count - 1)
 
 
