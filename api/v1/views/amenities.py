@@ -18,7 +18,7 @@ def amenities_index():
 @app_views.route('/amenities/<amenity_id>', methods=['GET'])
 def amenities_show(amenity_id):
     """Retrieves a Amenity object"""
-    amenities_found = storage.get("Amenity", amenity_id)
+    amenities_found = storage.get(Amenity, amenity_id)
     if amenities_found:
         return jsonify(amenities_found.to_dict()), 200
     else:
@@ -28,7 +28,7 @@ def amenities_show(amenity_id):
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def amenities_destroy(amenity_id):
     """ Deletes a amenity object"""
-    amenities_found = storage.get("Amenity", amenity_id)
+    amenities_found = storage.get(Amenity, amenity_id)
     if amenities_found:
         storage.delete(amenities_found)
         storage.save()
@@ -55,7 +55,7 @@ def amenities_create():
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def amenities_update(amenity_id):
-    amenities_found = storage.get("Amenity", amenity_id)
+    amenities_found = storage.get(Amenity, amenity_id)
     amenity_attributes = request.get_json()
     if not amenity_attributes:
         abort(400, "Not a JSON")

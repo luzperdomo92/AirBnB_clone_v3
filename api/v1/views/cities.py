@@ -12,7 +12,7 @@ def cities_in_state(state_id):
     """Method to retrieve the list of all cities in a state.
        It also creates a city on the state if requested"""
     # Gets the state by its ID
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
 
     if state is None:
         abort(404)
@@ -41,7 +41,7 @@ def cities_in_state(state_id):
 @app_views.route('/cities/<city_id>/', methods=['GET', 'DELETE'])
 def retrieve_city(city_id):
     """Retrieves a city"""
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
 
@@ -60,7 +60,7 @@ def update_city(city_id):
     request_dict = request.get_json()
     if not request_dict:
         abort(400, 'Not a JSON')
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     else:

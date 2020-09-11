@@ -18,7 +18,7 @@ def user_index():
 @app_views.route('/users/<user_id>', methods=['GET'])
 def user_show(user_id):
     """Retrieves a User object"""
-    users_found = storage.get("User", user_id)
+    users_found = storage.get(User, user_id)
     if users_found:
         return jsonify(users_found.to_dict()), 200
     else:
@@ -28,7 +28,7 @@ def user_show(user_id):
 @app_views.route('/users/<user_id>', methods=['DELETE'])
 def user_destroy(user_id):
     """ Deletes a User object"""
-    users_found = storage.get("User", user_id)
+    users_found = storage.get(User, user_id)
     if users_found:
         storage.delete(users_found)
         storage.save()
@@ -58,7 +58,7 @@ def user_create():
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
 def user_update(user_id):
-    users_found = storage.get("User", user_id)
+    users_found = storage.get(User, user_id)
     user_attributes = request.get_json()
     if not user_attributes:
         abort(400, 'Not a JSON')
