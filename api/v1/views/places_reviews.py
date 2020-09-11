@@ -30,13 +30,15 @@ def create_review(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
+
     request_dict = request.get_json()
     if not request_dict:
         abort(400, 'Not a JSON')
+
     if 'user_id' not in request_dict:
         abort(400, 'Missing user_id')
-    userID = storage.get(User, request_dict['user_id'])
-    if not userID:
+    user = storage.get(User, request_dict['user_id'])
+    if not user:
         abort(404)
     if 'text' not in request_dict:
         abort(400, 'Missing text')
@@ -68,9 +70,14 @@ def update_review(review_id):
     request_dict = request.get_json()
     if not request_dict:
         abort(400, 'Not a JSON')
+
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
+
+    if 'text' not in request_dict:
+        abort(400, 'Missing text')
+
     ignore = ["id", "user_id", "place_id",
               "created_at", "updated_at"]
     for key, value in request_dict.items():
