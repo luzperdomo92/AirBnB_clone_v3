@@ -4,38 +4,46 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.review import Review
+from models.city import City
+from models.state import State
 from models.place import Place
 from models.user import User
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'])
-def reviews_for_place(place_id, user_id):
-    """Retrieves the list of all Reviews objects of a Place,
-       or creates a new Review according to the request"""
+@app_views.route('/places/<place_id>/reviews', methods=['GET'])
+def reviews_for_place(place_id):
+    """Retrieves the list of all Reviews objects of a Place"""
     place = storage.get(Place, place_id)
-    user = storage.get(User, user_id)
 
-    if place is None or user is None:
+    if place is None:
         abort(404)
 
-    if requested.method == 'GET':
-        review_list = []
-        for review in place.reviews:
-            review_list.append(review.to_dict())
-        return jsonify(review_list)
+    review_list = []
+    for review in place.reviews:
+        review_list.append(review.to_dict())
+    return jsonify(review_list)
 
-    if request.method == 'POST':
-        request_dict = request.get_json()
-        if not request_dict:
-            abort(400, 'Not a JSON')
-        if 'user_id' not in request_dict:
-            abort(400, 'Missing user_id')
-        if 'text' not in request_dict:
-            abort(400, 'Missing text')
-        new_review = Review(**request_dict)
-        storage.new(new_review)
-        storage.save()
-        return jsonify(new_review.to_dict()), 201
+
+@app_views.route('/places/<place_id>/reviews', methods=['POST'])
+def create_review(place_id):
+    """Creates a review for a place"""
+    place = storage.get(Place, place_id)
+    if not place:
+        abort(404)
+    request_dict = request.get_json()
+    if not request_dict:
+        abort(400, 'Not a JSON')
+    if 'user_id' not in request_dict:
+        abort(400, 'Missing user_id')
+    if 'text' not in request_dict:
+        abort(400, 'Missing text')
+    userID = storage.get(User, review['user_id'])
+    if not userID:
+        abort(404)
+    new_review = Review(**request_dict)
+    storage.new(new_review)
+    storage.save()
+    return jsonify(new_review.to_dict()), 201
 
 
 @app_views.route('/reviews/<review_id>/', methods=['GET', 'DELETE'])
